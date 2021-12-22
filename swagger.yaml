@@ -709,6 +709,32 @@ paths:
         passthroughBehavior: "when_no_match"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws_proxy"
+  /productionmonitoring/{id}:
+    get:
+      tags:
+      - "Production monitoring"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductionMonitoringDashboard"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:773602347396:function:GetById-anagrafica-aziende/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
 
       
 components:
@@ -876,6 +902,7 @@ components:
           example: "2021-11-12T14:32:48.000Z"
       xml:
         name: "ActiveBilling" 
+    
     SalesOpportunity:
       type: "object"
       required:
@@ -980,6 +1007,70 @@ components:
           type: "string"
       xml:
         name: "EmployeesRegistry" 
+        
+    ProductionMonitoringDashboard:
+      type: "object"
+      properties:
+        baseParam:
+          type: "string"
+        totalCmProduced:
+          type: "number"
+        totalProductionHrs:
+          type: "string"
+        unitsProducedByType:
+          type: "object"
+          properties:
+            base:
+              type: "integer"
+            cassa:
+              type: "integer"
+            gabbia:
+              type: "integer"
+            selle:
+              type: "integer"
+            fissaggi:
+              type: "integer"
+            dischi:
+              type: "integer"
+            tamponatura:
+              type: "integer"
+        productionCmByType:
+          type: "object"
+          properties:
+            base:
+              type: "number"
+            cassa:
+              type: "number"
+            gabbia:
+              type: "number"
+            selle:
+              type: "number"
+            fissaggi:
+              type: "number"
+            dischi:
+              type: "number"
+            tamponatura:
+              type: "number"
+        productionHrsByType:
+          type: "object"
+          properties:
+            base:
+              type: "string"
+            cassa:
+              type: "string"
+            gabbia:
+              type: "string"
+            selle:
+              type: "string"
+            fissaggi:
+              type: "string"
+            dischi:
+              type: "string"
+            tamponatura:
+              type: "string"
+      xml:
+        name: "ProductionMonitoringDashboard" 
+        
     ProductionMonitoring:
       type: "object"
       properties:
